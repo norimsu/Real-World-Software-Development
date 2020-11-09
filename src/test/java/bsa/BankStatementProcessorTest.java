@@ -21,17 +21,12 @@ class BankStatementProcessorTest {
 		final List<BankTransaction> bankTransactions = Collections.unmodifiableList(Arrays.asList(februarySalary, marchRoyalties));
 
 		final BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(bankTransactions);
-		final List<BankTransaction> transactions = bankStatementProcessor.findTransactions(new BankTransactionIsInFebruaryAndExpensive());
+		final List<BankTransaction> transactions =
+				bankStatementProcessor.findTransactions(bankTransaction ->
+						bankTransaction.getDate().getMonth() == Month.FEBRUARY
+								&& bankTransaction.getAmount() >= 1_000);
 
 		assertTrue(transactions.contains(februarySalary));
 		assertEquals(1, transactions.size());
-	}
-
-	class BankTransactionIsInFebruaryAndExpensive implements BankTransactionFilter {
-
-		@Override
-		public boolean test(final BankTransaction bankTransaction) {
-			return bankTransaction.getDate().getMonth() == Month.FEBRUARY && bankTransaction.getAmount() >= 1_000;
-		}
 	}
 }
