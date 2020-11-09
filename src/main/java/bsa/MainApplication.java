@@ -2,8 +2,14 @@ package bsa;
 
 import java.io.IOException;
 
+/**
+ * 3. SRP
+ */
 public class MainApplication {
 
+	/**
+	 * don't use by instance
+	 */
 	private MainApplication() {
 	}
 

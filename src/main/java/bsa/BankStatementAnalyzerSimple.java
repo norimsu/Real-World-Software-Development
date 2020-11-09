@@ -9,6 +9,9 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * 1. 심플
+ */
 public class BankStatementAnalyzerSimple {
 
 	private static final String RESOURCES = "src/main/resources/";

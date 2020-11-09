@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 은행 명세서 프로세서
+ * 은행_명세서_프로세서
  */
 public class BankStatementProcessor {
 

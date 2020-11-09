@@ -3,6 +3,9 @@ package bsa;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * 거래
+ */
 public class BankTransaction {
 
 	private final LocalDate date;
