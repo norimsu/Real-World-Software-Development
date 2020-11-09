@@ -99,6 +99,48 @@
 ## 원칙
 
 - 개방/폐쇄 원칙
+
   - 기존 코드를 바꾸지 않으므로 기존 코드가 잘못될 가능성이 줄어든다.
   - 코드가 중복되지 않으므로 기존 코드의 재사용성이 높아진다.
-  - 결합도가 낮아지므로 코드 유지보수성이 좋아진다.
+  - 결합도가 낮아지므로 코드 유지보수성이 좋아진다.
+
+- 갓 인터페이스 (god interface)
+
+  - 자바의 인터페이스는 모든 구현이 지켜야 할 규칙을 정의한다. 즉 구현 클래스는 인터페이스에서 정의한 모든 연산의 구현 코드를 제공해야 한다. 따라서 인터페이스를 바꾸면 이를 구현한 코드도 바뀐 내용을 지원하도록 갱신되어야 한다. 더 많은 연산을 추가할수록 더 자주 코드가 바뀌며, 문제가 발생할 수 있는 범위도 넓어진다.
+  - 월, 카테고리 같은 `BankTranscaction`의 속성이 `calculateAverageForCategory()`, `calculateTotalInJanuary()`처럼 메서드 이름의 일부로 사용되었다. 인터페이스가 도메인 객체의 특정 접근자에 종속되는 문제가 생겼다. 도메인 객체의 세부 내용이 바뀌면 인터페이스도 바뀌어야 하며 결과적으로 구현 코드도 바뀌어야 한다.
+
+  ```java
+  interface BankTransactionProcessor {
+    double calculateTotalAmount();
+    double calculateTotalInMonth(Month month);
+    double calculateTotalInJanuary();
+    double calculateAverageAmount();
+    double calculateAverageAmountForCategory();
+    List<BankTransaction> findTransactions(BankTransactionFilter bankTransactionFilter);
+  }
+  ```
+
+- 지나친 세밀함 (작은 인터페이스)
+
+  ```java
+  interface CalculateTotalAmount {
+    double calculateTotalamount();
+  }
+  
+  interface CalculateAverage {
+    double calculateAverage();
+  }
+  
+  interface CalculateTotalInMonth {
+    double calculateTotalInMonth(Month month);
+  }
+  ```
+
+  - 유지 보수에 방해가 된다.
+  - **안티 응집도** 문제가 발생한다. 즉 기능이 여러 인테페이스로 분산되어 찾기가 어렵다.
+  - 복잡도가 높아지고, 계속적으로 새로운 인터페이스가 추가된다.
+
+- 명시적 API vs 암묵적 API
+  - 구체적인 메서드는 자제적으로 어떤 동작을 수행하는지 잘 설명되어 있고, 사용하기 쉽다. 하지만 특정 상황에 국한되어 각 상황에 맞는 새로운 메서드를 많이 만들어야 하는 상황이 발생한다.
+  - 범용적인 메서드는 처음 사용하기가 어렵고, 문서화를 잘해놓아야 한다. 하지만 거의 모든 상황을 단순한 API로 처리할 수 있다.
+  - 범용적인 메서드를 제공하면서 가장 흔히 사용하는 연산의 경우 별도로 명시적으로 제공하는 것이 합리적이다.

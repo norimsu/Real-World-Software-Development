@@ -1,7 +1,7 @@
 package bsa;
 
 /**
- * 은행거래내역_필터
+ * 거래_필터
  */
 @FunctionalInterface
 public interface BankTransactionFilter {
